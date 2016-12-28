@@ -1,0 +1,5 @@
+package com.atguigu.jf.console.baseapi.marchant;
+
+public interface PcProviderMapper {
+
+}

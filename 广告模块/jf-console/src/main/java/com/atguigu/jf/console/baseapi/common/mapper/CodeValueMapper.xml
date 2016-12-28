@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.jf.console.baseapi.common.CodeValueMapper">
+
+	<resultMap id="BaseResultMap" type="com.atguigu.jf.console.common.bean.pojo.CodeValue" >
+    <id column="CODE_TYPE" property="codeType" jdbcType="INTEGER" />
+    <id column="CODE_VALUE" property="codeValue" jdbcType="VARCHAR" />
+    <result column="CODE_NAME" property="codeName" jdbcType="VARCHAR" />
+    <result column="CODE_DESC" property="codeDesc" jdbcType="VARCHAR" />
+    <result column="CODE_ORDER" property="codeOrder" jdbcType="DECIMAL" />
+    <result column="SUP_CODE_VALUE" property="supCodeValue" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="DATA_STATE" property="dataState" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE_TYPE, CODE_VALUE, CODE_NAME, CODE_DESC, CODE_ORDER, SUP_CODE_VALUE, CREATE_DATE, 
+    DATA_STATE
+  </sql>
+
+	<!-- 查询codeValue表的数据 -->
+	<select id="selectCodeValueByType" resultMap="BaseResultMap" parameterType="Map">
+		select <include refid="Base_Column_List"/>
+		from code_value c where c.data_state=1 and c.code_type=#{codeType}
+	</select>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.jf.console.baseapi.adv.AreaDefMapper">
+  <resultMap id="BaseResultMap" type="com.atguigu.jf.console.adv.bean.pojo.AreaDef">
+    <id column="AREA_ID" jdbcType="VARCHAR" property="areaId" />
+    <result column="AREA_CODE" jdbcType="VARCHAR" property="areaCode" />
+    <result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
+    <result column="AREA_DESC" jdbcType="VARCHAR" property="areaDesc" />
+    <result column="AREA_LEVEL" jdbcType="INTEGER" property="areaLevel" />
+    <result column="SUP_AREA_TREE" jdbcType="VARCHAR" property="supAreaTree" />
+    <result column="SUP_AREA_ID" jdbcType="VARCHAR" property="supAreaId" />
+    <result column="CREATOR" jdbcType="DECIMAL" property="creator" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="MODIFIER" jdbcType="DECIMAL" property="modifier" />
+    <result column="MODIFY_DATE" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="DATA_STATE" jdbcType="DECIMAL" property="dataState" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from area_def
+    where AREA_ID = #{areaId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.jf.console.adv.bean.pojo.AreaDef">
+    insert into area_def (AREA_ID, AREA_CODE, AREA_NAME, 
+      AREA_DESC, AREA_LEVEL, SUP_AREA_TREE, 
+      SUP_AREA_ID, CREATOR, CREATE_DATE, 
+      MODIFIER, MODIFY_DATE, DATA_STATE
+      )
+    values (#{areaId,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, 
+      #{areaDesc,jdbcType=VARCHAR}, #{areaLevel,jdbcType=INTEGER}, #{supAreaTree,jdbcType=VARCHAR}, 
+      #{supAreaId,jdbcType=VARCHAR}, #{creator,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{modifier,jdbcType=DECIMAL}, #{modifyDate,jdbcType=TIMESTAMP}, #{dataState,jdbcType=DECIMAL}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.jf.console.adv.bean.pojo.AreaDef">
+    update area_def
+    set AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      AREA_DESC = #{areaDesc,jdbcType=VARCHAR},
+      AREA_LEVEL = #{areaLevel,jdbcType=INTEGER},
+      SUP_AREA_TREE = #{supAreaTree,jdbcType=VARCHAR},
+      SUP_AREA_ID = #{supAreaId,jdbcType=VARCHAR},
+      CREATOR = #{creator,jdbcType=DECIMAL},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      MODIFIER = #{modifier,jdbcType=DECIMAL},
+      MODIFY_DATE = #{modifyDate,jdbcType=TIMESTAMP},
+      DATA_STATE = #{dataState,jdbcType=DECIMAL}
+    where AREA_ID = #{areaId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select AREA_ID, AREA_CODE, AREA_NAME, AREA_DESC, AREA_LEVEL, SUP_AREA_TREE, SUP_AREA_ID, 
+    CREATOR, CREATE_DATE, MODIFIER, MODIFY_DATE, DATA_STATE
+    from area_def
+    where AREA_ID = #{areaId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select AREA_ID, AREA_CODE, AREA_NAME, AREA_DESC, AREA_LEVEL, SUP_AREA_TREE, SUP_AREA_ID, 
+    CREATOR, CREATE_DATE, MODIFIER, MODIFY_DATE, DATA_STATE
+    from area_def
+  </select>
+  
+  <select id="getList" resultMap="BaseResultMap">
+  	select AREA_ID, AREA_NAME
+  	from area_def
+  	where data_state=1
+  </select>
+</mapper>

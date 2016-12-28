@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="../res/jquery/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="../res/jquery/plugins/jquery.validate.min.js"></script>
+<script type="text/javascript" src="../res/jquery/plugins/jquery.validate.message_cn.js"></script>
+<script type="text/javascript">
+	$().ready(function(){
+		// 当表单提交的时候，进行校验
+		$("#testForm").validate();
+		
+	});
+</script>
+</head>
+<body>
+	<form action="success.html" id="testForm">
+	用户名:<input type="text" name="name" id="name" required="required"><br><br>
+	邮箱:<input type="text" name="email" id="email"><br><br>
+	性别:
+	<input type="radio" name="sex" value="1" required="required">男
+	<input type="radio" name="sex" value="0">女
+	<br><br>
+	<input type="submit" value="提交">
+	</form>
+</body>
+</html>

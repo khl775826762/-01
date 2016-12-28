@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="../res/jquery/jquery-1.6.4.min.js"></script>
+<script type="text/javascript" src="../res/jquery/plugins/jquery.validate.min.js"></script>
+<script type="text/javascript" src="../res/jquery/plugins/jquery.validate.message_cn.js"></script>
+<script type="text/javascript">
+		/*$.validator.setDefaults({
+			// 当表单提交时，验证通过的时候，重新绑定提交的方法
+			submitHandler: function(form) {
+				alert("submitted!");
+				// 如果跳转
+				// 1、通过id选择器
+				//$("#testForm").submit();
+				// 2、通过参数
+				//form.submit();
+			}
+		}); */
+
+
+	 $.validator.addMethod("af",function(value,element,params){
+			if(value.length > 1){
+				return false;
+			}
+			if(value>=params[0] && value<=params[1]){
+				return true;
+			}else{
+				return false;
+			}
+	 },"必须是一个字母,且 a-f");
+		/* 用的时候,比如有个表单字段的 id="username",则在 rules 中写
+		username:{
+		af:["a","f"] */
+	
+	
+	$().ready(function(){
+		$("#testForm").validate({
+			rules:{
+				name:{
+					required : true,
+					af:["a","f"]
+				},
+				email:{
+					required:true,
+					email:true
+				},
+				sex:{
+					required:true
+				}
+			},
+			message:{
+				name:{
+					required:"请输入用户名",
+				}
+				
+			},
+			submitHandler:function(form){
+		           alert("提交事件!");   
+		           form.submit();
+		        }  
+		});
+		
+	});
+</script>
+</head>
+<body>
+	<form action="success.html" id="testForm">
+	用户名:<input type="text" name="name" id="name" ><br><br>
+	邮箱:<input type="text" name="email" id="email"><br><br>
+	性别:
+	<input type="radio" name="sex" value="1" >男
+	<input type="radio" name="sex" value="0">女
+	<br><br>
+	<input type="submit" value="提交">
+	</form>
+</body>
+</html>

@@ -1,0 +1,160 @@
+package com.atguigu.jf.console.user.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.atguigu.jf.console.common.bean.bo.PageModel;
+import com.atguigu.jf.console.user.bean.pojo.SysOp;
+import com.atguigu.jf.console.user.service.UserService;
+
+@Controller
+@RequestMapping("user")
+public class UserController {
+	@Autowired
+	private UserService userService;
+	
+	/*@RequestMapping("selectUserList")
+	@ResponseBody
+	public PageModel<SysOp> selectUserList(SysOp sysOp,Integer start,Integer limit,
+			@RequestParam(value="opName",required=false)String opName) throws Exception{
+		Map<String,Object> map=new HashMap<>();
+		map.put("start", start);
+		map.put("limit", limit);
+		if(opName!=null && !opName.equals("")){
+			System.out.println(opName);
+			map.put("opName", opName);
+		}
+		List<SysOp> list=userService.selectSysOpList(map);
+		
+		Integer count=userService.selectSysOpListCount(map);
+		PageModel<SysOp> pageModel=new PageModel<>();
+		pageModel.setPageNum(start);
+		pageModel.setPageSize(limit);
+		pageModel.setTotal(count);
+		pageModel.setRows(list);
+		
+		
+		return pageModel;
+	}*/
+	@RequestMapping("selectUserList")
+	@ResponseBody
+	public String selectUserList(SysOp sysOp,Integer start,Integer limit,
+			@RequestParam(value="opName",required=false)String opName,
+			@RequestParam(value="opKind",required=false)Integer opKind) throws Exception{
+		Map<String,Object> map=new HashMap<>();
+		map.put("start", start);
+		map.put("limit", limit);
+		if(opName!=null && !opName.equals("")){
+			System.out.println(opName);
+			map.put("opName", opName);
+			
+		}
+		if(opKind!=null){
+			map.put("opKind",opKind);
+		}
+		List<SysOp> list=userService.selectSysOpList(map);
+		
+		Integer count=userService.selectSysOpListCount(map);
+		PageModel<SysOp> pageModel=new PageModel<>();
+		pageModel.setPageNum(start);
+		pageModel.setPageSize(limit);
+		pageModel.setTotal(count);
+		pageModel.setRows(list);
+		String jsonString = JSON.toJSONString(pageModel,
+												SerializerFeature.WriteMapNullValue
+												,SerializerFeature.WriteNullStringAsEmpty);
+		
+		return jsonString;
+	}
+/*	@RequestMapping("selectUserList")
+	@ResponseBody
+	public String selectUserList(SysOp sysOp,Integer start,Integer limit,
+			@RequestParam(value="opName",required=false)String opName,
+			@RequestParam(value="opKind",required=false)Integer opKind) throws Exception{
+		Map<String,Object> map=new HashMap<>();
+		map.put("start", start);
+		map.put("limit", limit);
+		if(opName!=null && !opName.equals("")){
+			System.out.println(opName);
+			map.put("opName", opName);
+			
+		}
+		if(opKind!=null){
+			map.put("opKind",opKind);
+		}
+		List<SysOp> list=userService.selectSysOpList(map);
+		
+		Integer count=userService.selectSysOpListCount(map);
+		PageModel<SysOp> pageModel=new PageModel<>();
+		pageModel.setPageNum(start);
+		pageModel.setPageSize(limit);
+		pageModel.setTotal(count);
+		pageModel.setRows(list);
+		String jsonString = JSON.toJSONString(pageModel,
+				SerializerFeature.WriteMapNullValue
+				,SerializerFeature.WriteNullStringAsEmpty);
+		
+		return jsonString;
+	}
+*/	
+	@RequestMapping(value="deleteSysOpById")
+	public String deleteSysOpById(Integer opId,HttpSession session)throws Exception{
+		SysOp modifier = (SysOp) session.getAttribute("currentUser");
+		return "";
+	}
+	
+	@RequestMapping(value="addUserPage",method=RequestMethod.GET)
+	public String addUserPage(String type,Long opId,Map<String,Object> map)throws Exception{
+		SysOp sysOp=null;
+		if("modify".equals(type)){
+			sysOp=userService.selectByPrimaryKey(opId);
+			map.put("sysOp", sysOp);
+			map.put("opId",opId);
+		}
+		map.put("type", type);
+		
+		return "user/addUser";
+	}
+	
+	@RequestMapping(value="addUser",method=RequestMethod.POST)
+	public String addUser(SysOp sysOp)throws Exception{
+		userService.saveSysOp(sysOp);
+		return "user/userMgnt";
+	}
+	
+	@RequestMapping(value="modifyUser")
+	public String updateUser(SysOp sysOp)throws Exception{
+		int i=userService.updateByPrimaryKeySelective(sysOp);
+		return "user/userMgnt";
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

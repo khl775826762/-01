@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.jf.console.baseapi.user.SysOpMapper">
+
+	<resultMap id="BaseResultMap" type="com.atguigu.jf.console.user.bean.pojo.SysOp">
+		<id column="OP_ID" property="opId" jdbcType="DECIMAL" />
+		<result column="OP_NAME" property="opName" jdbcType="VARCHAR" />
+		<result column="OP_CODE" property="opCode" jdbcType="VARCHAR" />
+		<result column="OP_KIND" property="opKind" jdbcType="DECIMAL" />
+		<result column="OP_PIC" property="opPic" jdbcType="VARCHAR" />
+		<result column="MOBILE_NO" property="mobileNo" jdbcType="VARCHAR" />
+		<result column="EMAIL_ADRESS" property="emailAdress" jdbcType="VARCHAR" />
+		<result column="LOGIN_CODE" property="loginCode" jdbcType="VARCHAR" />
+		<result column="LOGIN_PASSWD" property="loginPasswd" jdbcType="VARCHAR" />
+		<result column="LOCK_FLAG" property="lockFlag" jdbcType="DECIMAL" />
+		<result column="DATA_STATE" property="dataState" jdbcType="DECIMAL" />
+		<result column="CREATOR" property="creator" jdbcType="DECIMAL" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="MODIFIER" property="modifier" jdbcType="DECIMAL" />
+		<result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		OP_ID, OP_NAME, OP_CODE, OP_KIND, OP_PIC, MOBILE_NO, EMAIL_ADRESS,
+		LOGIN_CODE, LOGIN_PASSWD,
+		LOCK_FLAG, DATA_STATE, CREATOR, CREATE_DATE, MODIFIER, MODIFY_DATE
+	</sql>
+
+	<select id="selectSysOpByUnameAndPwd" resultMap="BaseResultMap"
+		parameterType="com.atguigu.jf.console.user.bean.pojo.SysOp">
+		SELECT
+		<include refid="Base_Column_List"></include>
+		from sys_op s
+		where s.LOGIN_CODE= #{loginCode}
+		<if test="loginPasswd!=null">
+			and s.LOGIN_PASSWD= #{loginPasswd}
+		</if>
+	</select>
+	
+	<select id="selectSysOpList" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select 
+		<include refid="Base_Column_List"/>
+		from sys_op s
+		where s.data_state=1
+		<if test="opName!=null">
+			and OP_NAME = #{opName,jdbcType=VARCHAR} 
+		</if>
+		<if test="opCode!=null">
+			and OP_CODE = #{opCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="opKind!=null">
+			and OP_KIND = #{opKind,jdbcType=DECIMAL} 
+		</if>
+		<if test="opPic!=null">
+			and OP_PIC = #{opPic,jdbcType=VARCHAR} 
+		</if>
+		<if test="mobileNo!=null">
+			and MOBILE_NO = #{mobileNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="emailAdress!=null">
+			and EMAIL_ADRESS = #{emailAdress,jdbcType=VARCHAR} 
+		</if>
+		<if test="loginCode!=null">
+			and LOGIN_CODE = #{loginCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="loginPasswd!=null">
+			and LOGIN_PASSWD = #{loginPasswd,jdbcType=VARCHAR} 
+		</if>
+		<if test="lockFlag!=null">
+			and LOCK_FLAG = #{lockFlag,jdbcType=DECIMAL} 
+		</if>
+		limit #{start},#{limit}
+	</select>
+	
+	<select id="selectSysOpListCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select count(*)
+		from sys_op s
+		where s.data_state=1
+		<if test="opName!=null">
+			and OP_NAME = #{opName,jdbcType=VARCHAR} 
+		</if>
+		<if test="opCode!=null">
+			and OP_CODE = #{opCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="opKind!=null">
+			and OP_KIND = #{opKind,jdbcType=DECIMAL} 
+		</if>
+		<if test="opPic!=null">
+			and OP_PIC = #{opPic,jdbcType=VARCHAR} 
+		</if>
+		<if test="mobileNo!=null">
+			and MOBILE_NO = #{mobileNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="emailAdress!=null">
+			and EMAIL_ADRESS = #{emailAdress,jdbcType=VARCHAR} 
+		</if>
+		<if test="loginCode!=null">
+			and LOGIN_CODE = #{loginCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="loginPasswd!=null">
+			and LOGIN_PASSWD = #{loginPasswd,jdbcType=VARCHAR} 
+		</if>
+		<if test="lockFlag!=null">
+			and LOCK_FLAG = #{lockFlag,jdbcType=DECIMAL} 
+		</if>
+	</select>
+	
+	<insert id="saveSysOp" parameterType="com.atguigu.jf.console.user.bean.bo.SysFuncBean">
+		<selectKey resultType="Long" keyProperty="opId" order="BEFORE">
+			select nextval('sys_op')
+		</selectKey>
+		insert into sys_op
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			OP_ID,
+			<if test="opName!=null">
+				OP_NAME,
+			</if>
+			<if test="opCode!=null">
+				OP_CODE, 
+			</if>
+			<if test="opKind!=null">
+				OP_KIND,
+			</if>
+			<if test="opPic!=null">
+				OP_PIC,
+			</if>
+			<if test="mobileNo!=null">
+				MOBILE_NO,
+			</if>
+			<if test="emailAdress!=null">
+				EMAIL_ADRESS,
+			</if>
+			<if test="loginCode!=null">
+				LOGIN_CODE,
+			</if>
+			<if test="loginPasswd!=null">
+				LOGIN_PASSWD,
+			</if>
+			<if test="lockFlag!=null">
+				LOCK_FLAG
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			#{opId,jdbcType=DECIMAL},
+			<if test="opName!=null">
+				#{opName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="opCode!=null">
+				#{opCode,jdbcType=VARCHAR},
+			</if>
+			<if test="opKind!=null">
+				#{opKind,jdbcType=DECIMAL},
+			</if>
+			<if test="opPic!=null">
+				#{opPic,jdbcType=VARCHAR},
+			</if>
+			<if test="mobileNo!=null">
+				#{mobileNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="emailAdress!=null">
+				#{emailAdress,jdbcType=VARCHAR}, 
+			</if>
+			<if test="loginCode!=null">
+				#{loginCode,jdbcType=VARCHAR},
+			</if>
+			<if test="loginPasswd!=null">
+				#{loginPasswd,jdbcType=VARCHAR},
+			</if>
+			<if test="lockFlag!=null">
+				#{lockFlag,jdbcType=DECIMAL} 
+			</if>
+		</trim>
+	</insert>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="long">
+		select 
+		<include refid="Base_Column_List"/>
+		from sys_op s
+		where s.op_id=#{opId}
+	</select>
+	
+	<update id="updateByPrimaryKeySelective" 
+		parameterType="com.atguigu.jf.console.user.bean.pojo.SysOp">
+		update sys_op
+		<trim prefix="set" suffix="" suffixOverrides=",">
+			<if test="opName!=null">
+				OP_NAME = #{opName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="opCode!=null">
+				OP_CODE = #{opCode,jdbcType=VARCHAR}, 
+			</if>
+			<if test="opKind!=null">
+				OP_KIND = #{opKind,jdbcType=DECIMAL}, 
+			</if>
+			<if test="opPic!=null">
+				OP_PIC = #{opPic,jdbcType=VARCHAR}, 
+			</if>
+			<if test="mobileNo!=null">
+				MOBILE_NO = #{mobileNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="emailAdress!=null">
+				EMAIL_ADRESS = #{emailAdress,jdbcType=VARCHAR}, 
+			</if>
+			<if test="loginCode!=null">
+				LOGIN_CODE = #{loginCode,jdbcType=VARCHAR}, 
+			</if>
+			<if test="loginPasswd!=null">
+				LOGIN_PASSWD = #{loginPasswd,jdbcType=VARCHAR} ,
+			</if>
+			<if test="lockFlag!=null">
+				LOCK_FLAG = #{lockFlag,jdbcType=DECIMAL} 
+			</if>
+		</trim>
+		<where>
+			OP_ID=#{opId}
+		</where>
+	</update>
+	
+	<update id="deleteSysOpById" parameterType="com.atguigu.jf.console.user.bean.pojo.SysOp">
+			update sys_op 
+			set data_state=0
+			<if test="modifier!=null">
+				,modifier=#{modifier}
+			</if>
+			where data_state=1 
+			and op_id=#{opId}
+	</update>
+	
+	<select id="getCredentialsByUserName" resultType="String" parameterType="String">
+		select login_passwd from sys_op where login_code=#{loginCode} and data_state=1
+	</select>
+	
+	<select id="selectSysOpByUname" resultMap="BaseResultMap"
+		parameterType="string">
+		SELECT
+		<include refid="Base_Column_List"></include>
+		from sys_op s
+		where s.LOGIN_CODE= #{loginCode}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

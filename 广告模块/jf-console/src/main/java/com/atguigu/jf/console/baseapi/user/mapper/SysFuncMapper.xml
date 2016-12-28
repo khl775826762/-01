@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.jf.console.baseapi.user.SysFuncMapper">
+	
+	<resultMap id="BaseResultMap" type="com.atguigu.jf.console.user.bean.pojo.SysFunc">
+    <id column="FUNC_ID" jdbcType="DECIMAL" property="funcId" />
+    <result column="RES_ID" jdbcType="DECIMAL" property="resId" />
+    <result column="OPRT_TYPE_ID" jdbcType="DECIMAL" property="oprtTypeId" />
+    <result column="FUNC_TYPE" jdbcType="DECIMAL" property="funcType" />
+    <result column="SUP_FUNC_ID" jdbcType="DECIMAL" property="supFuncId" />
+    <result column="FUNC_LEVEL" jdbcType="DECIMAL" property="funcLevel" />
+    <result column="FUNC_LVL_PATH" jdbcType="VARCHAR" property="funcLvlPath" />
+    <result column="FUNC_CODE" jdbcType="VARCHAR" property="funcCode" />
+    <result column="FUNC_NAME" jdbcType="VARCHAR" property="funcName" />
+    <result column="FUNC_DESC" jdbcType="VARCHAR" property="funcDesc" />
+    <result column="FUNC_ORDER" jdbcType="DECIMAL" property="funcOrder" />
+    <result column="FUNC_URL" jdbcType="VARCHAR" property="funcUrl" />
+    <result column="FUNC_IMG" jdbcType="VARCHAR" property="funcImg" />
+    <result column="FUNC_PARAM" jdbcType="VARCHAR" property="funcParam" />
+    <result column="IF_DISPLAY" jdbcType="DECIMAL" property="ifDisplay" />
+    <result column="IF_COMMENT" jdbcType="DECIMAL" property="ifComment" />
+    <result column="FUNC_HELP_FLAG" jdbcType="DECIMAL" property="funcHelpFlag" />
+    <result column="FUNC_HELP_URL" jdbcType="VARCHAR" property="funcHelpUrl" />
+    <result column="DOMAIN_ID" jdbcType="DECIMAL" property="domainId" />
+    <result column="STATE" jdbcType="DECIMAL" property="state" />
+    <result column="DATA_STATE" jdbcType="DECIMAL" property="dataState" />
+    <result column="CREATOR" jdbcType="DECIMAL" property="creator" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="MODIFIER" jdbcType="DECIMAL" property="modifier" />
+    <result column="MODIFY_DATE" jdbcType="TIMESTAMP" property="modifyDate" />
+  </resultMap>
+  <!-- 构造自定义的结果集start -->
+  <resultMap id="FuncResultMap" type="com.atguigu.jf.console.user.bean.bo.SysFuncBean">
+    <id column="FUNC_ID" jdbcType="DECIMAL" property="funcId" />
+    <result column="FUNC_TYPE" jdbcType="DECIMAL" property="funcType" />
+    <result column="SUP_FUNC_ID" jdbcType="DECIMAL" property="supFuncId" />
+    <result column="FUNC_LEVEL" jdbcType="DECIMAL" property="funcLevel" />
+    <result column="FUNC_CODE" jdbcType="VARCHAR" property="funcCode" />
+    <result column="FUNC_NAME" jdbcType="VARCHAR" property="funcName" />
+    <result column="FUNC_ORDER" jdbcType="DECIMAL" property="funcOrder" />
+    <result column="FUNC_URL" jdbcType="VARCHAR" property="funcUrl" />
+    <result column="FUNC_IMG" jdbcType="VARCHAR" property="funcImg" />
+  </resultMap>
+  <sql id="Func_Column_List">
+    FUNC_ID,FUNC_TYPE, SUP_FUNC_ID, FUNC_LEVEL, 
+    FUNC_CODE, FUNC_NAME, FUNC_ORDER, FUNC_URL, FUNC_IMG
+  </sql>
+  <!-- 构造自定义的结果集end -->
+  <sql id="Base_Column_List">
+    FUNC_ID, RES_ID, OPRT_TYPE_ID, FUNC_TYPE, SUP_FUNC_ID, FUNC_LEVEL, FUNC_LVL_PATH, 
+    FUNC_CODE, FUNC_NAME, FUNC_DESC, FUNC_ORDER, FUNC_URL, FUNC_IMG, FUNC_PARAM, IF_DISPLAY, 
+    IF_COMMENT, FUNC_HELP_FLAG, FUNC_HELP_URL, DOMAIN_ID, STATE, DATA_STATE, CREATOR, 
+    CREATE_DATE, MODIFIER, MODIFY_DATE
+  </sql>
+	
+	<select id="selectSysFuncByOpId" parameterType="map" resultMap="FuncResultMap">
+		SELECT <include refid="Func_Column_List"/>
+		 FROM sys_func WHERE func_id IN(
+			SELECT func_id FROM sys_role_func srf,sys_op_role sor
+			WHERE srf.role_id=sor.role_id AND sor.op_id=#{opId}
+		)
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
